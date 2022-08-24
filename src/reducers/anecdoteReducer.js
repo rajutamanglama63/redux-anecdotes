@@ -1,3 +1,5 @@
+import { createSlice } from "@reduxjs/toolkit";
+
 const anecdotesAtStart = [
   "If it hurts, do it more often",
   "Adding manpower to a late software project makes it later!",
@@ -19,16 +21,22 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject);
 
-const reducer = (state = initialState, action) => {
-  // console.log("state now: ", state);
-  // console.log("action", action);
+// USING REDUX-T00LKIT
 
-  switch (action.type) {
-    case "NEW_ANECDOTE":
-      return state.concat(action.data);
-
-    case "VOTE":
-      const id = action.data.id;
+const anecdoteSlice = createSlice({
+  name: "anecdote",
+  initialState,
+  reducers: {
+    createAnecdote(state, action) {
+      const newAnecdote = {
+        content: action.payload,
+        id: getId(),
+        votes: 0,
+      };
+      return [...state, newAnecdote];
+    },
+    voteAnecdote(state, action) {
+      const id = action.payload;
       return state.map((eachObj) => {
         if (id === eachObj.id) {
           return { ...eachObj, votes: eachObj.votes + 1 };
@@ -36,27 +44,53 @@ const reducer = (state = initialState, action) => {
           return eachObj;
         }
       });
-    default:
-      return state;
-  }
-};
-
-export const createAnecdote = (newAnecdote) => {
-  return {
-    type: "NEW_ANECDOTE",
-    data: {
-      content: newAnecdote,
-      id: getId(),
-      votes: 0,
     },
-  };
-};
+  },
+});
 
-export const voteAnecdote = (id) => {
-  return {
-    type: "VOTE",
-    data: { id },
-  };
-};
+export const { createAnecdote, voteAnecdote } = anecdoteSlice.actions;
+export default anecdoteSlice.reducer;
 
-export default anecdoteReducer;
+// MANUAL APPROACH
+
+// const reducer = (state = initialState, action) => {
+// console.log("state now: ", state);
+// console.log("action", action);
+
+//   switch (action.type) {
+//     case "NEW_ANECDOTE":
+//       return state.concat(action.data);
+
+//     case "VOTE":
+//       const id = action.data.id;
+//       return state.map((eachObj) => {
+//         if (id === eachObj.id) {
+//           return { ...eachObj, votes: eachObj.votes + 1 };
+//         } else {
+//           return eachObj;
+//         }
+//       });
+//     default:
+//       return state;
+//   }
+// };
+
+// export const createAnecdote = (newAnecdote) => {
+//   return {
+//     type: "NEW_ANECDOTE",
+//     data: {
+//       content: newAnecdote,
+//       id: getId(),
+//       votes: 0,
+//     },
+//   };
+// };
+
+// export const voteAnecdote = (id) => {
+//   return {
+//     type: "VOTE",
+//     data: { id },
+//   };
+// };
+
+// export default reducer;
