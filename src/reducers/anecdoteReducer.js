@@ -26,6 +26,22 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "NEW_ANECDOTE":
       return state.concat(action.data);
+    // case "VOTE": {
+    //   const id = action.data.id;
+    //   const anecdoteToVote = state.find((a) => a.id === id);
+    //   return { ...state, anecdoteToVote: anecdoteToVote.votes + 1 };
+    // }
+    case "VOTE":
+      const id = action.data.id;
+      // const anecdoteToVote = state.find((a) => a.id === id);
+      // return [...state, {...anecdoteToVote, anecdoteToVote : anecdoteToVote.votes + 1}];
+      return state.map((eachObj) => {
+        if (id === eachObj.id) {
+          return { ...eachObj, votes: eachObj.votes + 1 };
+        } else {
+          return eachObj;
+        }
+      });
     default:
       return state;
   }
@@ -39,6 +55,13 @@ export const createAnecdote = (newAnecdote) => {
       id: getId(),
       votes: 0,
     },
+  };
+};
+
+export const voteAnecdote = (id) => {
+  return {
+    type: "VOTE",
+    data: { id },
   };
 };
 
