@@ -59,4 +59,4 @@ export const voteAnecdote = (id) => {
   };
 };
 
-export default reducer;
+export default anecdoteReducer;
