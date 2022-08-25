@@ -19,7 +19,8 @@ const asObject = (anecdote) => {
   };
 };
 
-const initialState = anecdotesAtStart.map(asObject);
+// const initialState = anecdotesAtStart.map(asObject);
+const initialState = [];
 
 // USING REDUX-T00LKIT
 
@@ -45,10 +46,17 @@ const anecdoteSlice = createSlice({
         }
       });
     },
+    appendAnecdote(state, action) {
+      return [...state, action.payload];
+    },
+    setAnecdote(state, action) {
+      return action.payload;
+    },
   },
 });
 
-export const { createAnecdote, voteAnecdote } = anecdoteSlice.actions;
+export const { createAnecdote, voteAnecdote, appendAnecdote, setAnecdote } =
+  anecdoteSlice.actions;
 export default anecdoteSlice.reducer;
 
 // MANUAL APPROACH
