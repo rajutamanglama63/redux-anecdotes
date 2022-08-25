@@ -4,7 +4,8 @@ import { message, removeMessage } from "../reducers/notificationReducer";
 
 const AnecdoteList = () => {
   const anecdotes = useSelector((state) => state.anecdote);
-  // console.log(anecdotes);
+  const filter = useSelector((state) => state.filter);
+  console.log(filter);
   const dispatch = useDispatch();
   const vote = (id) => {
     // console.log("vote", id);
