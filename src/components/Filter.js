@@ -11,7 +11,6 @@ const Filter = () => {
       anecdote.content.toLowerCase().includes(inputsToFilter.toLowerCase())
     );
     // console.log(filteredAnecdotes);
-    // filteredAnecdotes.map((filteredAnec) => dispatch(filter(filteredAnec)));
     dispatch(filter(filteredAnecdotes));
   };
 
