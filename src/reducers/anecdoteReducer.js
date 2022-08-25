@@ -29,12 +29,16 @@ const anecdoteSlice = createSlice({
   initialState,
   reducers: {
     createAnecdote(state, action) {
-      const newAnecdote = {
-        content: action.payload,
-        id: getId(),
-        votes: 0,
-      };
-      return [...state, newAnecdote];
+      // this approach is done when there is no database
+      // const newAnecdote = {
+      //   content: action.payload,
+      //   id: getId(),
+      //   votes: 0,
+      // };
+      // return [...state, newAnecdote];
+
+      // this particular approach is applied when we have to communicate with database
+      return [...state, action.payload];
     },
     voteAnecdote(state, action) {
       const id = action.payload;
