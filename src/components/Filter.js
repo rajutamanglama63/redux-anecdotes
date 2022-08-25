@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
+import { filter } from "../reducers/filterReducer";
 
 const Filter = () => {
   const anecdotes = useSelector((state) => state.anecdote);
@@ -9,8 +10,9 @@ const Filter = () => {
     let filteredAnecdotes = anecdotes.filter((anecdote) =>
       anecdote.content.toLowerCase().includes(inputsToFilter.toLowerCase())
     );
-    console.log(filteredAnecdotes);
-    dispatch(filteredAnecdotes);
+    // console.log(filteredAnecdotes);
+    // filteredAnecdotes.map((filteredAnec) => dispatch(filter(filteredAnec)));
+    dispatch(filter(filteredAnecdotes));
   };
 
   const style = {

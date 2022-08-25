@@ -4,8 +4,8 @@ import { message, removeMessage } from "../reducers/notificationReducer";
 
 const AnecdoteList = () => {
   const anecdotes = useSelector((state) => state.anecdote);
-  const filter = useSelector((state) => state.filter);
-  console.log(filter);
+  const filteredAnecs = useSelector((state) => state.filter);
+
   const dispatch = useDispatch();
   const vote = (id) => {
     // console.log("vote", id);
@@ -18,15 +18,25 @@ const AnecdoteList = () => {
   };
   return (
     <div>
-      {anecdotes.map((anecdote) => (
-        <div key={anecdote.id}>
-          <div>{anecdote.content}</div>
-          <div>
-            has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
-          </div>
-        </div>
-      ))}
+      {filteredAnecs !== ""
+        ? filteredAnecs.map((filterAnec) => (
+            <div key={filterAnec.id}>
+              <div>{filterAnec.content}</div>
+              <div>
+                has {filterAnec.votes}
+                <button onClick={() => vote(filterAnec.id)}>vote</button>
+              </div>
+            </div>
+          ))
+        : anecdotes.map((anecdote) => (
+            <div key={anecdote.id}>
+              <div>{anecdote.content}</div>
+              <div>
+                has {anecdote.votes}
+                <button onClick={() => vote(anecdote.id)}>vote</button>
+              </div>
+            </div>
+          ))}
     </div>
   );
 };
