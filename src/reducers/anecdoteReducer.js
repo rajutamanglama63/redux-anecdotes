@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 import anecdoteServices from "../services/anecdotes";
 
 // const anecdotesAtStart = [
@@ -42,15 +43,18 @@ const anecdoteSlice = createSlice({
     // this particular approach is applied when we have to communicate with database
     //   return [...state, action.payload];
     // },
+
     voteAnecdote(state, action) {
-      const id = action.payload;
-      return state.map((eachObj) => {
-        if (id === eachObj.id) {
-          return { ...eachObj, votes: eachObj.votes + 1 };
-        } else {
-          return eachObj;
-        }
-      });
+      // const id = action.payload;
+      // return state.map((eachObj) => {
+      //   if (id === eachObj.id) {
+      //     return { ...eachObj, votes: eachObj.votes + 1 };
+      //   } else {
+      //     return eachObj;
+      //   }
+      // });
+
+      return action.payload;
     },
     appendAnecdote(state, action) {
       return [...state, action.payload];
@@ -77,6 +81,19 @@ export const createAnecdote = (content) => {
     const newAnecdote = await anecdoteServices.createNewAnecdote(content);
 
     dispatch(appendAnecdote(newAnecdote));
+  };
+};
+
+export const anecdoteVote = (id) => {
+  return async (dispatch) => {
+    const anecdotes = await anecdoteServices.getAll();
+    const votedObj = {
+      content: anecdotes.content,
+      votes: anecdotes.votes + 1,
+    };
+
+    const newlyVotedAnecdote = await anecdoteServices.updateVote(id, votedObj);
+    dispatch(voteAnecdote(newlyVotedAnecdote));
   };
 };
 
