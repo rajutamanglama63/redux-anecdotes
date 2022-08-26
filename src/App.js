@@ -5,14 +5,18 @@ import AnecdoteForm from "./components/AnecdoteForm";
 import AnecdoteList from "./components/AnecdoteList";
 import Filter from "./components/Filter";
 import Notification from "./components/Notification";
-import { setAnecdote } from "./reducers/anecdoteReducer";
+import { initializeAnecdotes } from "./reducers/anecdoteReducer";
+// import { setAnecdote } from "./reducers/anecdoteReducer";
 
 const App = () => {
   const dispatch = useDispatch();
+  // fetching operation in component is not good practise. let's abstract it down with redux-thunk
   useEffect(() => {
-    anecdoteServices
-      .getAll()
-      .then((anecdotes) => dispatch(setAnecdote(anecdotes)));
+    // anecdoteServices
+    //   .getAll()
+    //   .then((anecdotes) => dispatch(setAnecdote(anecdotes)));
+
+    dispatch(initializeAnecdotes());
   }, [dispatch]);
   return (
     <div>
