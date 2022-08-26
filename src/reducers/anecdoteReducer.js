@@ -29,18 +29,19 @@ const anecdoteSlice = createSlice({
   name: "anecdote",
   initialState,
   reducers: {
-    createAnecdote(state, action) {
-      // this approach is done when there is no database
-      // const newAnecdote = {
-      //   content: action.payload,
-      //   id: getId(),
-      //   votes: 0,
-      // };
-      // return [...state, newAnecdote];
+    // we are abstracting it by using redux-thunk library
+    // createAnecdote(state, action) {
+    // this approach is done when there is no database
+    // const newAnecdote = {
+    //   content: action.payload,
+    //   id: getId(),
+    //   votes: 0,
+    // };
+    // return [...state, newAnecdote];
 
-      // this particular approach is applied when we have to communicate with database
-      return [...state, action.payload];
-    },
+    // this particular approach is applied when we have to communicate with database
+    //   return [...state, action.payload];
+    // },
     voteAnecdote(state, action) {
       const id = action.payload;
       return state.map((eachObj) => {
@@ -60,7 +61,7 @@ const anecdoteSlice = createSlice({
   },
 });
 
-export const { createAnecdote, voteAnecdote, appendAnecdote, setAnecdote } =
+export const { voteAnecdote, appendAnecdote, setAnecdote } =
   anecdoteSlice.actions;
 
 export const initializeAnecdotes = () => {
@@ -70,6 +71,15 @@ export const initializeAnecdotes = () => {
     dispatch(setAnecdote(anecdotes));
   };
 };
+
+export const createAnecdote = (content) => {
+  return async (dispatch) => {
+    const newAnecdote = await anecdoteServices.createNewAnecdote(content);
+
+    dispatch(appendAnecdote(newAnecdote));
+  };
+};
+
 export default anecdoteSlice.reducer;
 
 // MANUAL APPROACH

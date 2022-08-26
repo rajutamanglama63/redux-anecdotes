@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { createAnecdote } from "../reducers/anecdoteReducer";
 import { message, removeMessage } from "../reducers/notificationReducer";
-import anecdoteServices from "../services/anecdotes";
+// import anecdoteServices from "../services/anecdotes";
 
 const CreateAnecdote = () => {
   const dispatch = useDispatch();
@@ -11,9 +11,10 @@ const CreateAnecdote = () => {
     const content = e.target.anecdote.value;
     e.target.anecdote.value = "";
 
-    const newAnecdote = await anecdoteServices.createNewAnecdote(content);
+    // this step is abstracted down or handled by redux-thunk in anecdoteReducer.js file
+    // const newAnecdote = await anecdoteServices.createNewAnecdote(content);
 
-    dispatch(createAnecdote(newAnecdote));
+    dispatch(createAnecdote(content));
     dispatch(message("Anecdote created."));
     setTimeout(() => dispatch(removeMessage(null)), 5000);
   };
