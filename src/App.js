@@ -13,7 +13,7 @@ const App = () => {
     anecdoteServices
       .getAll()
       .then((anecdotes) => dispatch(setAnecdote(anecdotes)));
-  }, []);
+  }, [dispatch]);
   return (
     <div>
       <h2>Anecdotes</h2>
