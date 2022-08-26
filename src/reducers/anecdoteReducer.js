@@ -45,16 +45,14 @@ const anecdoteSlice = createSlice({
     // },
 
     voteAnecdote(state, action) {
-      // const id = action.payload;
-      // return state.map((eachObj) => {
-      //   if (id === eachObj.id) {
-      //     return { ...eachObj, votes: eachObj.votes + 1 };
-      //   } else {
-      //     return eachObj;
-      //   }
-      // });
-
-      return action.payload;
+      const updatedAnecdote = action.payload;
+      return state.map((eachObj) => {
+        if (updatedAnecdote.id === eachObj.id) {
+          return updatedAnecdote;
+        } else {
+          return eachObj;
+        }
+      });
     },
     appendAnecdote(state, action) {
       return [...state, action.payload];
@@ -87,12 +85,13 @@ export const createAnecdote = (content) => {
 export const anecdoteVote = (id) => {
   return async (dispatch) => {
     const anecdotes = await anecdoteServices.getAll();
-    const votedObj = {
-      content: anecdotes.content,
-      votes: anecdotes.votes + 1,
-    };
 
-    const newlyVotedAnecdote = await anecdoteServices.updateVote(id, votedObj);
+    const votedObj = anecdotes.find((a) => a.id === id);
+
+    const newlyVotedAnecdote = await anecdoteServices.updateVote(id, {
+      ...votedObj,
+      votes: votedObj.votes + 1,
+    });
     dispatch(voteAnecdote(newlyVotedAnecdote));
   };
 };
