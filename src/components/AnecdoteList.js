@@ -1,6 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
 import { anecdoteVote } from "../reducers/anecdoteReducer";
-import { message, removeMessage } from "../reducers/notificationReducer";
+import {
+  message,
+  notification,
+  removeMessage,
+} from "../reducers/notificationReducer";
 
 const AnecdoteList = () => {
   const anecdotes = useSelector((state) => state.anecdote);
@@ -14,8 +18,11 @@ const AnecdoteList = () => {
     dispatch(anecdoteVote(id));
 
     const votedAnecdote = anecdotes.find((a) => a.id === id);
-    dispatch(message(`you voted '${votedAnecdote.content}'`));
-    setTimeout(() => dispatch(removeMessage(null)), 5000);
+    dispatch(notification(`you voted ${votedAnecdote.content}`, 5000));
+
+    // this step is abstracted down or handled by redux-thunk in anecdoteReducer.js file
+    //   dispatch(message(`you voted '${votedAnecdote.content}'`));
+    //   setTimeout(() => dispatch(removeMessage(null)), 5000);
   };
   return (
     <div>
